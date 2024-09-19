@@ -1,0 +1,43 @@
+﻿% Definir el sistema de ecuaciones como una matriz A y un vector b
+A = [52, 20, 25;
+     30, 50, 20;
+     18, 30, 55];
+
+b = [4800; 5810; 5690];
+
+% Valores iniciales para x1, x2, x3
+x = zeros(3, 1);
+
+% Definir el número máximo de iteraciones y la tolerancia
+max_iterations = 1000;
+tolerance = 1e-10;
+
+% Método de Gauss-Seidel
+for k = 1:max_iterations
+    x_old = x;
+    
+    % Primera ecuación
+    x(1) = (b(1) - A(1,2)*x(2) - A(1,3)*x(3)) / A(1,1);
+    
+    % Segunda ecuación
+    x(2) = (b(2) - A(2,1)*x(1) - A(2,3)*x(3)) / A(2,2);
+    
+    % Tercera ecuación
+    x(3) = (b(3) - A(3,1)*x(1) - A(3,2)*x(2)) / A(3,3);
+    
+    % Verificar si la solución converge
+    if norm(x - x_old, inf) < tolerance
+        fprintf('Convergió después de %d iteraciones\n', k);
+        break;
+    end
+end
+
+if k == max_iterations
+    fprintf('No convergió dentro del número máximo de iteraciones\n');
+end
+
+% Mostrar la solución
+fprintf('Solución: \n');
+fprintf('x1 (cantera 1): %.10f\n', x(1));
+fprintf('x2 (cantera 2): %.10f\n', x(2));
+fprintf('x3 (cantera 3): %.10f\n', x(3));
